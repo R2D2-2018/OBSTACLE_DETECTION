@@ -1,11 +1,4 @@
-/**
- * @file
- * @brief     Obstacle Detection for pressure and distance sensors
- * @author    Joost van Lingen
- * @license   MIT
- */
-
-#include "OBSTACLE_DETECTION_HPP.hpp"
+#include "obstacle_detection.hpp"
 #include "wrap-hwlib.hpp"
 
 ObstacleDetection::ObstacleDetection(hwlib::target::pin_in pressureSensorPin, hwlib::target::pin_in distanceSensorTrigPin,

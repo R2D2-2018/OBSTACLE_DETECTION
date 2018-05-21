@@ -1,5 +1,5 @@
 /**
- * @file OBSTACLE_DETECTION_HPP.hpp
+ * @file obstacle_detection.hpp
  * @brief    Obstacle Detection class
  * @author   Joost van Lingen
  * @license  See LICENSE

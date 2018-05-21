@@ -1,4 +1,4 @@
-#include "OBSTACLE_DETECTION_HPP.hpp"
+#include "obstacle_detection.hpp"
 #include "wrap-hwlib.hpp"
 
 int main() {
