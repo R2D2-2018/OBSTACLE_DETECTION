@@ -6,18 +6,21 @@ int main() {
 
     namespace target = hwlib::target;
 
-    const target::pin_in &pressurePin = target::pin_in(target::pins::d12);
-    const target::pin_in &distanceTrigPin = target::pin_in(target::pins::d11);
-    const target::pin_in &distanceEchoPin = target::pin_in(target::pins::d10);
+    target::pin_in pressurePin = target::pin_in(target::pins::d2);
+    target::pin_in distanceTrigPin = target::pin_in(target::pins::d11);
+    target::pin_in distanceEchoPin = target::pin_in(target::pins::d10);
 
     ObstacleDetection obstacleDetector(pressurePin, distanceTrigPin, distanceEchoPin);
 
-    obstacleDetector.setDestanceWarningValue(50);
+    obstacleDetector.setDistanceWarningValue(50);
 
-    hwlib::wait_ms(1000);
-    hwlib::cout << "Pressure state:" << obstacleDetector.getPressureState() << '\n';
-    hwlib::cout << "Distance state:" << obstacleDetector.getDistanceState() << '\n';
-    hwlib::cout << "Warning state:" << obstacleDetector.getWarningState() << '\n';
+    while (1) {
+        hwlib::wait_ms(1000);
+        hwlib::cout << "Pressure state:" << obstacleDetector.getPressureState();
+        hwlib::cout << " - Distance state:" << obstacleDetector.getDistanceState();
+        hwlib::cout << " - Warning state:" << obstacleDetector.getWarningState();
+        hwlib::cout << '\n';
+    }
 
     return 0;
 }
