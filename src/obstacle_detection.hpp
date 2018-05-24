@@ -21,6 +21,14 @@ class ObstacleDetection {
     hwlib::target::pin_in distanceSensorEchoPin;
 
   public:
+  	/**
+     * @brief constructor of ObstacleDetection
+     *
+     * Constructor for the ObstacleDetection class.
+     *
+     * @param The pins used for the sensors are given to the ObstacleDetection constructor
+     * @return none
+     */
     ObstacleDetection(hwlib::target::pin_in pressureSensorPin, hwlib::target::pin_in distanceSensorTrigPin,
                       hwlib::target::pin_in distanceSensorEchoPin);
     /**
