@@ -16,12 +16,12 @@ class ObstacleDetection {
     bool warningState = 0;        ///< Stores boolean state of the warning funciton
     int distanceWarningValue = 0; ///< Stores integer edge value for warning funciton
 
-    hwlib::target::pin_in pressureSensorPin;
-    hwlib::target::pin_in distanceSensorTrigPin;
-    hwlib::target::pin_in distanceSensorEchoPin;
+    hwlib::pin_in &pressureSensorPin;
+    hwlib::pin_out &distanceSensorTrigPin;
+    hwlib::pin_in &distanceSensorEchoPin;
 
   public:
-  	/**
+    /**
      * @brief constructor of ObstacleDetection
      *
      * Constructor for the ObstacleDetection class.
@@ -29,8 +29,8 @@ class ObstacleDetection {
      * @param The pins used for the sensors are given to the ObstacleDetection constructor
      * @return none
      */
-    ObstacleDetection(hwlib::target::pin_in pressureSensorPin, hwlib::target::pin_in distanceSensorTrigPin,
-                      hwlib::target::pin_in distanceSensorEchoPin);
+    ObstacleDetection(hwlib::pin_in &pressureSensorPin, hwlib::pin_out &distanceSensorTrigPin,
+                      hwlib::pin_in &distanceSensorEchoPin);
     /**
      * @brief returns state of pressure sensor
      *
