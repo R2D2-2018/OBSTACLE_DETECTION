@@ -1,8 +1,8 @@
 #include "obstacle_detection.hpp"
 #include "wrap-hwlib.hpp"
 
-ObstacleDetection::ObstacleDetection(hwlib::target::pin_in pressureSensorPin, hwlib::target::pin_in distanceSensorTrigPin,
-                                     hwlib::target::pin_in distanceSensorEchoPin)
+ObstacleDetection::ObstacleDetection(hwlib::pin_in &pressureSensorPin, hwlib::pin_out &distanceSensorTrigPin,
+                                     hwlib::pin_in &distanceSensorEchoPin)
     : pressureSensorPin(pressureSensorPin), distanceSensorTrigPin(distanceSensorTrigPin),
       distanceSensorEchoPin(distanceSensorEchoPin) {
 }
