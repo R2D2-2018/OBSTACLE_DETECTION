@@ -15,10 +15,21 @@ class ObstacleDetection {
     int distanceState = 0;        ///< Stores integer state of the Distance sensor
     bool warningState = 0;        ///< Stores boolean state of the warning funciton
     int distanceWarningValue = 0; ///< Stores integer edge value for warning funciton
+    uint_fast64_t timePassed = 0; ///< Stores the amount of time that passed during the distance measuring
 
     hwlib::pin_in &pressureSensorPin;
     hwlib::pin_out &distanceSensorTrigPin;
     hwlib::pin_in &distanceSensorEchoPin;
+
+    /**
+     * @brief update function
+     *
+     * Updates all sensor data with new measurements
+     *
+     * @param none
+     * @return none
+     */
+    void update();
 
   public:
     /**

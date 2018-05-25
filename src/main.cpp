@@ -10,13 +10,11 @@ int main() {
 
     ObstacleDetection obstacleDetector(pressurePin, distanceTrigPin, distanceEchoPin);
 
-    obstacleDetector.setDistanceWarningValue(50);
-
     while (1) {
         hwlib::wait_ms(1000);
-        hwlib::cout << "Pressure state:" << obstacleDetector.getPressureState();
+        // hwlib::cout << "Pressure state:" << obstacleDetector.getPressureState();
         hwlib::cout << " - Distance state:" << obstacleDetector.getDistanceState();
-        hwlib::cout << " - Warning state:" << obstacleDetector.getWarningState();
+        // hwlib::cout << " - Warning state:" << obstacleDetector.getWarningState();
         hwlib::cout << '\n';
     }
 
