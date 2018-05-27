@@ -15,7 +15,6 @@ class ObstacleDetection {
     int distanceState = 0;        ///< Stores integer state of the Distance sensor
     bool warningState = 0;        ///< Stores boolean state of the warning funciton
     int distanceWarningValue = 0; ///< Stores integer edge value for warning funciton
-    uint_fast64_t timePassed = 0; ///< Stores the amount of time that passed during the distance measuring
 
     hwlib::pin_in &pressureSensorPin;
     hwlib::pin_out &distanceSensorTrigPin;
@@ -24,7 +23,12 @@ class ObstacleDetection {
     /**
      * @brief update function
      *
-     * Updates all sensor data with new measurements
+     * Updates all sensor data with new measurements.
+     * The pressure state is determined by reading out the pin where the pressure sensor is connected, this is a simple true or
+     * false. The distance state is determined by sending an echo pulse of 10 us to the trig pin of the distance sensor, waiting for
+     * the echo pin to return a pulse. The length of this pulse represents the time it took the ultrasonic pulse to reach an
+     * obstacle and get back to the sensor. This is multiplied by 0.034 (speed of sound devided by 100 to get cm/us) and devided by
+     * 2 (the sound traveled forth and back, we only need to know the distance to the object).
      *
      * @param none
      * @return none

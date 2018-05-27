@@ -12,4 +12,5 @@ include_directories (${catch}/single_include)
 
 set (sources
 src/obstacle_detection.cpp
+src/data_communication.cpp
 )

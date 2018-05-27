@@ -9,21 +9,30 @@ ObstacleDetection::ObstacleDetection(hwlib::pin_in &pressureSensorPin, hwlib::pi
 
 void ObstacleDetection::update() {
     pressureState = pressureSensorPin.get();
-    distanceSensorTrigPin.set(0);
-    hwlib::wait_ms(10);
-    distanceSensorTrigPin.set(1);
-    hwlib::wait_us(15);
-    distanceSensorTrigPin.set(0);
-    timePassed = hwlib::now_us();
-    hwlib::wait_us(10);
-    while (hwlib::now_us() < timePassed + 20000) {
-        if (distanceSensorEchoPin.get()) {
-            break;
+    uint_fast64_t counter[5];
+    for (int i = 0; i < 5; i++) {
+        distanceSensorTrigPin.set(0);
+        hwlib::wait_us(2);
+        distanceSensorTrigPin.set(1);
+        hwlib::wait_us(10);
+        distanceSensorTrigPin.set(0);
+        while (!distanceSensorEchoPin.get()) {
+        }
+        counter[i] = hwlib::now_us();
+        while (distanceSensorEchoPin.get()) {
+        }
+        counter[i] = (hwlib::now_us() - counter[i]) * 0.034 / 2;
+    }
+    for (int h = 0; h < 4; h++) {
+        for (int i = 0; i < 4; i++) {
+            if (counter[i] > counter[i + 1]) {
+                int temp = counter[i];
+                counter[i] = counter[i + 1];
+                counter[i + 1] = temp;
+            }
         }
     }
-    timePassed = hwlib::now_us() - timePassed;
-    hwlib::cout << (int)timePassed << hwlib::endl;
-    distanceState = timePassed * 0.034 / 2;
+    distanceState = counter[2];
 }
 
 bool ObstacleDetection::getPressureState() {
