@@ -1,55 +1,60 @@
 #define CATCH_CONFIG_MAIN // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
 
-class ObstacleDetection {
-  public:
-    bool pressureState = 0;
-    int distanceState = 0;
-    bool warningState = 0;
-    int distanceWarningValue = 0;
-    int pin;
+#include "obstacle_detection.hpp"
+#include "wrap-hwlib.hpp"
 
-  public:
-    explicit ObstacleDetection(int pin);
-    bool getPressureState();
-    int getDistanceState();
-    void setDistanceWarningValue(int distance);
-    bool getWarningState();
-};
+TEST_CASE("ObstacleDetection::getPressureState()") {
+    hwlib::test::pin_in<14 * 8> pressure{// some input data
+                                         0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1,
+                                         1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1,
+                                         0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1,
+                                         0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+    hwlib::test::pin_in<14 * 8> echo{// some input data
+                                     0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1,
+                                     1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1,
+                                     0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1,
+                                     0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+    hwlib::test::pin_out<8> trig{};
 
-ObstacleDetection::ObstacleDetection(int pin) : pin(pin){};
+    ObstacleDetection obstacleDetector(pressure, trig, echo);
 
-bool ObstacleDetection::getPressureState() {
-    return pressureState;
-}
-
-int ObstacleDetection::getDistanceState() {
-    return distanceState;
-}
-
-void ObstacleDetection::setDistanceWarningValue(int distance) {
-    distanceWarningValue = distance;
-}
-
-bool ObstacleDetection::getWarningState() {
-    return warningState;
-}
-
-ObstacleDetection obstacleDetector(2);
-
-TEST_CASE("Set Distance Warning Value") {
-    obstacleDetector.setDistanceWarningValue(50);
-    REQUIRE(obstacleDetector.distanceWarningValue == 50);
-}
-
-TEST_CASE("Read pressure state") {
     REQUIRE(obstacleDetector.getPressureState() == false);
+    REQUIRE(obstacleDetector.getPressureState() == true);
 }
 
-TEST_CASE("Read distance state") {
-    REQUIRE(obstacleDetector.getDistanceState() == 0);
+TEST_CASE("ObstacleDetection::getDistanceState()") {
+    hwlib::test::pin_in<14 * 8> pressure{// some input data
+                                         0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1,
+                                         1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1,
+                                         0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1,
+                                         0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+    hwlib::test::pin_in<14 * 8> echo{// some input data
+                                     0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1,
+                                     1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1,
+                                     0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1,
+                                     0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+    hwlib::test::pin_out<8> trig{};
+
+    ObstacleDetection obstacleDetector(pressure, trig, echo);
+    int distance = obstacleDetector.getDistanceState();
+    REQUIRE(distance == 0);
 }
 
-TEST_CASE("Read warning state") {
+TEST_CASE("ObstacleDetection::getWarningState") {
+    hwlib::test::pin_in<14 * 8> pressure{// some input data
+                                         0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1,
+                                         1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1,
+                                         0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1,
+                                         0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+    hwlib::test::pin_in<14 * 8> echo{// some input data
+                                     0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1,
+                                     1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1,
+                                     0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1,
+                                     0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+    hwlib::test::pin_out<8> trig{};
+
+    ObstacleDetection obstacleDetector(pressure, trig, echo);
+
     REQUIRE(obstacleDetector.getWarningState() == false);
 }

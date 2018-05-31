@@ -16,9 +16,9 @@ class ObstacleDetection {
     bool warningState = 0;        ///< Stores boolean state of the warning funciton
     int distanceWarningValue = 0; ///< Stores integer edge value for warning funciton
 
-    hwlib::pin_in &pressureSensorPin;
-    hwlib::pin_out &distanceSensorTrigPin;
-    hwlib::pin_in &distanceSensorEchoPin;
+    hwlib::pin_in &pressureSensorPin;      ///< Stores the address of the pin connected to the pressure sensor
+    hwlib::pin_out &distanceSensorTrigPin; ///< Stores the address of the trigger pin connected to the distance sensor
+    hwlib::pin_in &distanceSensorEchoPin;  ///< Stores the address of the echo pin connected to the distance sensor
 
     /**
      * @brief update function

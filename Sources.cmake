@@ -11,6 +11,8 @@ include_directories (${catch}/single_include)
 # Source Files:
 
 set (sources
-src/obstacle_detection.cpp
-src/data_communication.cpp
+    src/wrap-hwlib.cpp
+    src/libc-stub.cpp
+    src/obstacle_detection.cpp
+    src/data_communication.cpp
 )
