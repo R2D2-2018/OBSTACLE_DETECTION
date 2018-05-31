@@ -7,16 +7,17 @@ ObstacleDetection::ObstacleDetection(hwlib::pin_in &pressureSensorPin, hwlib::pi
       distanceSensorEchoPin(distanceSensorEchoPin) {
 }
 
+void ObstacleDetection::update() {
+    pressureState = pressureSensorPin.get();
+}
+
 bool ObstacleDetection::getPressureState() {
-    if (pressureSensorPin.get()) {
-        pressureState = true;
-    } else {
-        pressureState = false;
-    }
+    update();
     return pressureState;
 }
 
 int ObstacleDetection::getDistanceState() {
+    update();
     return distanceState;
 }
 
