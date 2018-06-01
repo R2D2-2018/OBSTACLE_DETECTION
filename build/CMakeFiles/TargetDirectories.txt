@@ -1,6 +1,0 @@
-/root/R2D2/Build-environment/modules/OBSTACLE_DETECTION/build/CMakeFiles/rebuild_cache.dir
-/root/R2D2/Build-environment/modules/OBSTACLE_DETECTION/build/CMakeFiles/edit_cache.dir
-/root/R2D2/Build-environment/modules/OBSTACLE_DETECTION/build/CMakeFiles/arduino-template.bin.dir
-/root/R2D2/Build-environment/modules/OBSTACLE_DETECTION/build/CMakeFiles/arduino-template.elf.dir
-/root/R2D2/Build-environment/modules/OBSTACLE_DETECTION/build/CMakeFiles/flash.dir
-/root/R2D2/Build-environment/modules/OBSTACLE_DETECTION/build/CMakeFiles/arduino-template.hex.dir
