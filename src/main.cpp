@@ -1,4 +1,4 @@
-#include "obstacle_detection.hpp"
+#include "sensor_interface.hpp"
 #include "wrap-hwlib.hpp"
 
 int main() {
@@ -8,7 +8,7 @@ int main() {
     auto distanceTrigPin = hwlib::target::pin_out(hwlib::target::pins::d11);
     auto distanceEchoPin = hwlib::target::pin_in(hwlib::target::pins::d10);
 
-    ObstacleDetection obstacleDetector(pressurePin, distanceTrigPin, distanceEchoPin);
+    SensorInterface obstacleDetector(pressurePin, distanceTrigPin, distanceEchoPin);
 
     return 0;
 }

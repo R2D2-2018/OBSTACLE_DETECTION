@@ -13,6 +13,6 @@ include_directories (${catch}/single_include)
 set (sources
     src/wrap-hwlib.cpp
     src/libc-stub.cpp
-    src/obstacle_detection.cpp
+    src/sensor_interface.cpp
     src/data_communication.cpp
 )
