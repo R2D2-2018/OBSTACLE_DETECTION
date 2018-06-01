@@ -12,6 +12,8 @@ set (sources ${sources}
     ${unit_test_main}
     src/wrap-hwlib.cpp
     src/libc-stub.cpp
+    src/obstacle_detection.cpp
+    src/data_communication.cpp
 )
 
 set (build_test build_test)
