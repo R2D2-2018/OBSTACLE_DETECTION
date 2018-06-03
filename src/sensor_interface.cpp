@@ -1,10 +1,30 @@
+/**
+ * @file sensor_interface.cpp
+ * @brief    Sensor Interface functionality
+ * @author   Joost van Lingen
+ * @license  See LICENSE
+ */
+
 #include "sensor_interface.hpp"
 #include "wrap-hwlib.hpp"
 
-SensorInterface::SensorInterface(hwlib::pin_in &pressureSensorPin, hwlib::pin_out &distanceSensorTrigPin,
+SensorInterface::SensorInterface(hwlib::pin_in &pressureSensorPin, hwlib::pin_out &distanceSensorTriggerPin,
                                  hwlib::pin_in &distanceSensorEchoPin)
-    : pressureSensorPin(pressureSensorPin), distanceSensorTrigPin(distanceSensorTrigPin),
+    : pressureSensorPin(pressureSensorPin), distanceSensorTriggerPin(distanceSensorTriggerPin),
       distanceSensorEchoPin(distanceSensorEchoPin) {
+}
+
+int SensorInterface::filterSensorData(int data[5]) {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (data[j] > data[j + 1]) {
+                int temp = data[j];
+                data[j] = data[j + 1];
+                data[j + 1] = temp;
+            }
+        }
+    }
+    return data[2];
 }
 
 void SensorInterface::updatePressureState() {
@@ -12,7 +32,29 @@ void SensorInterface::updatePressureState() {
 }
 
 void SensorInterface::updateDistanceState() {
-    distanceState = 0;
+    int data[5];
+    uint16_t timeout = 30000;
+    for (int i = 0; i < 5; i++) {
+        distanceSensorTriggerPin.set(0);
+        hwlib::wait_us(2);
+        distanceSensorTriggerPin.set(1);
+        hwlib::wait_us(10);
+        distanceSensorTriggerPin.set(0);
+        data[i] = hwlib::now_us();
+        while (!distanceSensorEchoPin.get() && (hwlib::now_us() - data[i]) < timeout) {
+        }
+        data[i] = hwlib::now_us();
+        while (distanceSensorEchoPin.get() && (hwlib::now_us() - data[i]) < timeout) {
+        }
+        data[i] = (hwlib::now_us() - data[i]) * 0.034 / 2;
+    }
+    distanceState = filterSensorData(data);
+}
+
+void SensorInterface::updateWarningState() {
+    updatePressureState();
+    updateDistanceState();
+    warningState = pressureState || (distanceState <= distanceWarningValue && distanceState != 0);
 }
 
 bool SensorInterface::getPressureState() {
@@ -30,5 +72,6 @@ void SensorInterface::setDistanceWarningValue(const int &distance) {
 }
 
 bool SensorInterface::getWarningState() {
+    updateWarningState();
     return warningState;
 }
