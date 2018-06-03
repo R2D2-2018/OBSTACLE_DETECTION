@@ -1,15 +1,15 @@
 /**
- * @file obstacle_detection.hpp
- * @brief    Obstacle Detection class
+ * @file sensor_interface.hpp
+ * @brief    Sensor Interface class
  * @author   Joost van Lingen
  * @license  See LICENSE
  */
 
-#ifndef OBSTACLE_DETECTION_HPP
-#define OBSTACLE_DETECTION_HPP
+#ifndef SENSOR_INTERFACE_HPP
+#define SENSOR_INTERFACE_HPP
 #include "wrap-hwlib.hpp"
 
-class ObstacleDetection {
+class SensorInterface {
   private:
     bool pressureState = 0;       ///< Stores boolean state of the Pressure sensor
     int distanceState = 0;        ///< Stores integer state of the Distance sensor
@@ -21,9 +21,8 @@ class ObstacleDetection {
     hwlib::pin_in &distanceSensorEchoPin;  ///< Stores the address of the echo pin connected to the distance sensor
 
     /**
-     * @brief update function
+     * @brief updatePressureState function
      *
-     * Updates all sensor data with new measurements.
      * The pressure state is determined by reading out the pin where the pressure sensor is connected, this is a simple true or
      * false. The distance state is determined by sending an echo pulse of 10 us to the trig pin of the distance sensor, waiting for
      * the echo pin to return a pulse. The length of this pulse represents the time it took the ultrasonic pulse to reach an
@@ -33,19 +32,51 @@ class ObstacleDetection {
      * @param none
      * @return none
      */
-    void update();
+    void updatePressureState();
+    /**
+     * @brief updateDistanceState function
+     *
+     * The distance state is determined by sending an echo pulse of 10 us to the trig pin of the distance sensor, waiting for
+     * the echo pin to return a pulse. The length of this pulse represents the time it took the ultrasonic pulse to reach an
+     * obstacle and get back to the sensor. This is multiplied by 0.034 (speed of sound devided by 100 to get cm/us) and devided by
+     * 2 (the sound traveled forth and back, we only need to know the distance to the object).
+     *
+     * @param none
+     * @return none
+     */
+    void updateDistanceState();
+    /**
+     * @brief updateWarningState function
+     *
+     * By calling this function, both pressure and distance update functions are called. When either the pressure sensor returns
+     * true, or the distance state returns a value higher than the edge value stored in distanceWarningValue, the function will set
+     * warningState to true. This function makes it as easy as possible to quickly check whether an obstacle is too near the module.
+     *
+     * @param none
+     * @return none
+     */
+    void updateWarningState();
+    /**
+     * @brief filterSensorData function
+     *
+     * This function takes five integers, sorts them and takes the middle one to determine the median of the variable's values.
+     * Doing this, extremely low and high measurements from the sensor are largely excluded.
+     *
+     * @param array of 5 integers
+     * @return integer containing the median value of the given 5 integers
+     */
+    int filterSensorData(int data[5]);
 
   public:
     /**
-     * @brief constructor of ObstacleDetection
+     * @brief constructor of SensorInterface
      *
-     * Constructor for the ObstacleDetection class.
+     * Constructor for the SensorInterface class.
      *
-     * @param The pins used for the sensors are given to the ObstacleDetection constructor
+     * @param The pins used for the sensors are given to the SensorInterface constructor
      * @return none
      */
-    ObstacleDetection(hwlib::pin_in &pressureSensorPin, hwlib::pin_out &distanceSensorTrigPin,
-                      hwlib::pin_in &distanceSensorEchoPin);
+    SensorInterface(hwlib::pin_in &pressureSensorPin, hwlib::pin_out &distanceSensorTrigPin, hwlib::pin_in &distanceSensorEchoPin);
     /**
      * @brief returns state of pressure sensor
      *
@@ -72,7 +103,7 @@ class ObstacleDetection {
      * @param dinstance in centimeters, as an integer variable
      * @return none
      */
-    void setDistanceWarningValue(int distance);
+    void setDistanceWarningValue(const int &distance);
     /**
      * @brief returns state of warning function
      *
@@ -85,4 +116,4 @@ class ObstacleDetection {
     bool getWarningState();
 };
 
-#endif // OBSTACLE_DETECTION_HPP
+#endif // SENSOR_INTERFACE_HPP

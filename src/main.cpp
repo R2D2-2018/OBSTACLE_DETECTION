@@ -1,14 +1,19 @@
-#include "obstacle_detection.hpp"
+#include "sensor_interface.hpp"
 #include "wrap-hwlib.hpp"
 
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
+    auto pressurePin = hwlib::target::pin_in(hwlib::target::pins::d7);
+    auto distanceTrigPin = hwlib::target::pin_out(hwlib::target::pins::d6);
+    auto distanceEchoPin = hwlib::target::pin_in(hwlib::target::pins::d5);
 
-    auto pressurePin = hwlib::target::pin_in(hwlib::target::pins::d12);
-    auto distanceTrigPin = hwlib::target::pin_out(hwlib::target::pins::d11);
-    auto distanceEchoPin = hwlib::target::pin_in(hwlib::target::pins::d10);
+    SensorInterface obstacleDetector(pressurePin, distanceTrigPin, distanceEchoPin);
 
-    ObstacleDetection obstacleDetector(pressurePin, distanceTrigPin, distanceEchoPin);
+    obstacleDetector.setDistanceWarningValue(20);
+
+    while (true) {
+        hwlib::cout << obstacleDetector.getWarningState();
+    }
 
     return 0;
 }
