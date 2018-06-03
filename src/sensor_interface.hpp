@@ -16,9 +16,9 @@ class SensorInterface {
     bool warningState = 0;        ///< Stores boolean state of the warning funciton
     int distanceWarningValue = 0; ///< Stores integer edge value for warning funciton
 
-    hwlib::pin_in &pressureSensorPin;      ///< Stores the address of the pin connected to the pressure sensor
-    hwlib::pin_out &distanceSensorTrigPin; ///< Stores the address of the trigger pin connected to the distance sensor
-    hwlib::pin_in &distanceSensorEchoPin;  ///< Stores the address of the echo pin connected to the distance sensor
+    hwlib::pin_in &pressureSensorPin;         ///< Stores the address of the pin connected to the pressure sensor
+    hwlib::pin_out &distanceSensorTriggerPin; ///< Stores the address of the trigger pin connected to the distance sensor
+    hwlib::pin_in &distanceSensorEchoPin;     ///< Stores the address of the echo pin connected to the distance sensor
 
     /**
      * @brief updatePressureState function
@@ -28,9 +28,6 @@ class SensorInterface {
      * the echo pin to return a pulse. The length of this pulse represents the time it took the ultrasonic pulse to reach an
      * obstacle and get back to the sensor. This is multiplied by 0.034 (speed of sound devided by 100 to get cm/us) and devided by
      * 2 (the sound traveled forth and back, we only need to know the distance to the object).
-     *
-     * @param none
-     * @return none
      */
     void updatePressureState();
     /**
@@ -40,9 +37,6 @@ class SensorInterface {
      * the echo pin to return a pulse. The length of this pulse represents the time it took the ultrasonic pulse to reach an
      * obstacle and get back to the sensor. This is multiplied by 0.034 (speed of sound devided by 100 to get cm/us) and devided by
      * 2 (the sound traveled forth and back, we only need to know the distance to the object).
-     *
-     * @param none
-     * @return none
      */
     void updateDistanceState();
     /**
@@ -51,9 +45,6 @@ class SensorInterface {
      * By calling this function, both pressure and distance update functions are called. When either the pressure sensor returns
      * true, or the distance state returns a value higher than the edge value stored in distanceWarningValue, the function will set
      * warningState to true. This function makes it as easy as possible to quickly check whether an obstacle is too near the module.
-     *
-     * @param none
-     * @return none
      */
     void updateWarningState();
     /**
@@ -74,15 +65,14 @@ class SensorInterface {
      * Constructor for the SensorInterface class.
      *
      * @param The pins used for the sensors are given to the SensorInterface constructor
-     * @return none
      */
-    SensorInterface(hwlib::pin_in &pressureSensorPin, hwlib::pin_out &distanceSensorTrigPin, hwlib::pin_in &distanceSensorEchoPin);
+    SensorInterface(hwlib::pin_in &pressureSensorPin, hwlib::pin_out &distanceSensorTriggerPin,
+                    hwlib::pin_in &distanceSensorEchoPin);
     /**
      * @brief returns state of pressure sensor
      *
      * Returns the state of the pressure sensor. Returns true when sensing pressure, false when not sensing pressure.
      *
-     * @param none
      * @return the state of the pressure sensor as a boolean
      */
     bool getPressureState();
@@ -91,7 +81,6 @@ class SensorInterface {
      *
      * Returns the state of the distance sensor as centimeters to most nearby obstacle in an integer variable.
      *
-     * @param none
      * @return the state of the distance sensor as an integer
      */
     int getDistanceState();
@@ -101,7 +90,6 @@ class SensorInterface {
      * Sets the edge value in centimeters for when the warning state must be set to TRUE.
      *
      * @param dinstance in centimeters, as an integer variable
-     * @return none
      */
     void setDistanceWarningValue(const int &distance);
     /**
@@ -110,7 +98,6 @@ class SensorInterface {
      * Returns the state of the warning function.
      * When the distance sensor measures and obstacle whithin the distance set as edge value, the warning state will be set to TRUE.
      *
-     * @param none
      * @return the state of the warning function as a boolean
      */
     bool getWarningState();

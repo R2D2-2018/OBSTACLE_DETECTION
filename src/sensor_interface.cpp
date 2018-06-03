@@ -8,9 +8,9 @@
 #include "sensor_interface.hpp"
 #include "wrap-hwlib.hpp"
 
-SensorInterface::SensorInterface(hwlib::pin_in &pressureSensorPin, hwlib::pin_out &distanceSensorTrigPin,
+SensorInterface::SensorInterface(hwlib::pin_in &pressureSensorPin, hwlib::pin_out &distanceSensorTriggerPin,
                                  hwlib::pin_in &distanceSensorEchoPin)
-    : pressureSensorPin(pressureSensorPin), distanceSensorTrigPin(distanceSensorTrigPin),
+    : pressureSensorPin(pressureSensorPin), distanceSensorTriggerPin(distanceSensorTriggerPin),
       distanceSensorEchoPin(distanceSensorEchoPin) {
 }
 
@@ -35,11 +35,11 @@ void SensorInterface::updateDistanceState() {
     int data[5];
     uint16_t timeout = 30000;
     for (int i = 0; i < 5; i++) {
-        distanceSensorTrigPin.set(0);
+        distanceSensorTriggerPin.set(0);
         hwlib::wait_us(2);
-        distanceSensorTrigPin.set(1);
+        distanceSensorTriggerPin.set(1);
         hwlib::wait_us(10);
-        distanceSensorTrigPin.set(0);
+        distanceSensorTriggerPin.set(0);
         data[i] = hwlib::now_us();
         while (!distanceSensorEchoPin.get() && (hwlib::now_us() - data[i]) < timeout) {
         }
