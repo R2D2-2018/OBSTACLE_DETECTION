@@ -8,7 +8,7 @@
  * @license   MIT
  */
 
-FlexSensor::FlexSensor(hwlib::target::pin_in &analog_pin) : analog_pin(analog_pin) {
+FlexSensor::FlexSensor(hwlib::target::pin_adc &analog_pin) : analog_pin(analog_pin) {
     threshold = 0;
     resting_value = 0;
     calibrationValues = 0;
@@ -16,25 +16,27 @@ FlexSensor::FlexSensor(hwlib::target::pin_in &analog_pin) : analog_pin(analog_pi
 }
 
 int FlexSensor::read() {
-    if (!calibrated) {
+    if (!this->calibrated) {
         this->calibrate();
     }
-    return 1;
+    return this->analog_pin.get();
 }
 
 void FlexSensor::calibrate() {
-    calibrated = true;
-    hwlib::cout << "Calibrating";
+    this->reset();
+    this->calibrated = true;
+    hwlib::cout << "[Calibrating....]" << hwlib::endl;
 
     for (int i = 0; i < 10; i++) {
-        calibrationValues += read(); // Add val
+        int val = read();
+        this->calibrationValues += val;
+        hwlib::cout << "............" << val << hwlib::endl;
         hwlib::wait_ms(100);
-        hwlib::cout << ".";
     }
-
+    hwlib::cout << "Average....." << (this->calibrationValues / 10) << hwlib::endl;
     hwlib::cout << hwlib::endl;
 
-    resting_value = calibrationValues / 10;
+    this->resting_value = this->calibrationValues / 10;
 }
 
 void FlexSensor::reset() {

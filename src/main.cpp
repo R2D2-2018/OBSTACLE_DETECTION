@@ -7,9 +7,10 @@ int main() {
     hwlib::wait_ms(1000);
     hwlib::cout << "Starting..." << hwlib::endl;
 
-    auto analog_pin = hwlib::target::pin_in(hwlib::target::pins::d7);
+    auto ad_pin = hwlib::target::pin_adc(hwlib::target::ad_pins::a0);
 
-    FlexSensor flexSensor(analog_pin);
+    FlexSensor flexSensor(ad_pin);
+
     while (true) {
         hwlib::cout << flexSensor.read() << hwlib::endl;
         hwlib::wait_ms(500);
