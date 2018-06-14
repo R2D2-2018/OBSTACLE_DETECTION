@@ -15,4 +15,5 @@ set (sources
     src/libc-stub.cpp
     src/sensor_interface.cpp
     src/data_communication.cpp
+    src/flex_sensor.cpp
 )
