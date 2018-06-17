@@ -16,10 +16,10 @@
  */
 class FlexSensor {
   private:
-    hwlib::target::pin_adc analog_pin; // Analog pin the sensor is hooked up to
-    int calibrationValues;             // Integer that holds the values to calibrate the sensor
-    int restingValue;                  // Value from the sensor when it is not being bent
-    bool calibrated;                   // Has the sensor been calibrated?
+    hwlib::target::pin_adc analog_pin; ///< Analog pin the sensor is hooked up to
+    int calibrationValues;             ///< Integer that holds the values to calibrate the sensor
+    int restingValue;                  ///< Value from the sensor when it is not being bent
+    bool calibrated;                   ///< Has the sensor been calibrated?
 
   public:
     /**
@@ -43,6 +43,7 @@ class FlexSensor {
      * This function performs a calibration of the sensor. It calls the `read()` function 10 times takes the average of those
      * values to determine the value the sensor returns in an "idle" state.
      *
+     * @return void
      */
     void calibrate();
 
@@ -51,6 +52,7 @@ class FlexSensor {
      *
      * This function resets the flex sensors' internal variables incase the calibration needs to be performed again.
      *
+     * @return void
      */
     void reset();
 };
