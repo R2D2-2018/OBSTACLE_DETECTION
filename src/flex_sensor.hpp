@@ -2,8 +2,6 @@
 #define FLEX_SENSOR_HPP
 #include "wrap-hwlib.hpp"
 
-#include <array>
-
 /**
  * @file      flex_sensor.hpp
  * @brief     Hpp file for the class FlexSensor which will contain functions to control the FlexSensor pressure sensor
@@ -20,8 +18,7 @@ class FlexSensor {
   private:
     hwlib::target::pin_adc analog_pin; // Analog pin the sensor is hooked up to
     int calibrationValues;             // Integer that holds the values to calibrate the sensor
-    int threshold;                     // Threshold value
-    int resting_value;                 // Value from the sensor when it is not being bent
+    int restingValue;                  // Value from the sensor when it is not being bent
     bool calibrated;                   // Has the sensor been calibrated?
 
   public:
@@ -31,9 +28,31 @@ class FlexSensor {
      */
     explicit FlexSensor(hwlib::target::pin_adc &analog_pin);
 
-    int read();       // Gets a value from the sensor
-    void calibrate(); // Calibrates the sensor
-    void reset();     // Resets `calibrated` value
+    /**
+     * @brief read() function
+     *
+     * This function reads returns a reading from the flex sensor.
+     *
+     * @return integer value from the flex sensor
+     */
+    int read();
+
+    /**
+     * @brief calibrate() functon
+     *
+     * This function performs a calibration of the sensor. It calls the `read()` function 10 times takes the average of those
+     * values to determine the value the sensor returns in an "idle" state.
+     *
+     */
+    void calibrate();
+
+    /**
+     * @brief reset() functon
+     *
+     * This function resets the flex sensors' internal variables incase the calibration needs to be performed again.
+     *
+     */
+    void reset();
 };
 
 #endif // FLEX_SENSOR_HPP
