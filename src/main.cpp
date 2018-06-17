@@ -1,18 +1,19 @@
-#include "sensor_interface.hpp"
+#include "flex_sensor.hpp"
 #include "wrap-hwlib.hpp"
 
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
-    auto pressurePin = hwlib::target::pin_in(hwlib::target::pins::d7);
-    auto distanceTriggerPin = hwlib::target::pin_out(hwlib::target::pins::d6);
-    auto distanceEchoPin = hwlib::target::pin_in(hwlib::target::pins::d5);
 
-    SensorInterface obstacleDetector(pressurePin, distanceTriggerPin, distanceEchoPin);
+    hwlib::wait_ms(1000);
+    hwlib::cout << "Starting..." << hwlib::endl;
 
-    obstacleDetector.setDistanceWarningValue(20);
+    auto ad_pin = hwlib::target::pin_adc(hwlib::target::ad_pins::a0);
+
+    FlexSensor flexSensor(ad_pin);
 
     while (true) {
-        hwlib::cout << obstacleDetector.getWarningState();
+        hwlib::cout << flexSensor.read() << hwlib::endl;
+        hwlib::wait_ms(500);
     }
 
     return 0;
