@@ -34,7 +34,6 @@ void FlexSensor::calibrate() {
         int val = read();
         this->calibrationValues += val;
     }
-    // hwlib::cout << "Average....." << (this->calibrationValues / 10) << hwlib::endl;
     this->restingValue = this->calibrationValues / 10;
 }
 

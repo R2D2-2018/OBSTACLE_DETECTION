@@ -14,10 +14,7 @@ ObstacleDetection::ObstacleDetection(FlexSensor &flexSensor, DistanceSensor &dis
 }
 
 bool ObstacleDetection::getState() {
-    if (flexSensor.read() < pressureThreshold || distanceSensor.getDistance() < distanceThreshold) {
-        return true;
-    }
-    return false;
+    return flexSensor.read() < pressureThreshold || distanceSensor.getDistance() < distanceThreshold;
 }
 
 void ObstacleDetection::setDistanceThreshold(int distanceThreshold) {
