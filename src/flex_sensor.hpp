@@ -16,17 +16,17 @@
  */
 class FlexSensor {
   private:
-    hwlib::target::pin_adc analog_pin; ///< Analog pin the sensor is hooked up to
-    int calibrationValues;             ///< Integer that holds the values to calibrate the sensor
-    int restingValue;                  ///< Value from the sensor when it is not being bent
-    bool calibrated;                   ///< Has the sensor been calibrated?
+    hwlib::adc &analog_pin; ///< Analog pin the sensor is hooked up to
+    int calibrationValues;  ///< Integer that holds the values to calibrate the sensor
+    int restingValue;       ///< Value from the sensor when it is not being bent
+    bool calibrated;        ///< Has the sensor been calibrated?
 
   public:
     /**
      * @brief FlexSensor Constructor
      * @param analog_pin       Pin to read the voltage on
      */
-    explicit FlexSensor(hwlib::target::pin_adc &analog_pin);
+    explicit FlexSensor(hwlib::adc &analog_pin);
 
     /**
      * @brief read() function

@@ -9,7 +9,7 @@
  * @license   MIT
  */
 
-FlexSensor::FlexSensor(hwlib::target::pin_adc &analog_pin) : analog_pin(analog_pin) {
+FlexSensor::FlexSensor(hwlib::adc &analog_pin) : analog_pin(analog_pin) {
     restingValue = 0;
     calibrationValues = 0;
     calibrated = false;
