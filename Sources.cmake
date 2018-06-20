@@ -15,4 +15,7 @@ set (sources
     src/libc-stub.cpp
     src/sensor_interface.cpp
     src/data_communication.cpp
+    src/flex_sensor.cpp
+    src/distance_sensor.cpp
+    src/obstacle_detection.cpp
 )
